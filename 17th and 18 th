@@ -4,7 +4,7 @@ image capture on google cloud platform
 creating instances with default created image on GCP setup WEBSERVER login using xshell.
 
 18
-creating web server setup  and edit the HTNL page 
+creating web server setup  and edit the HTML page 
 add RDPORTAL
 
 on the back groung angular JS is used on RDPORTAL
@@ -21,15 +21,133 @@ application server is java based one , exposing the app server directly is vuler
 database can have login details for all users 
 anthetication page for big applications website will have single-sign (Ldap-servers)on servers separately 
 third party software website sign on authetications provided by facebook and google 
-Application server setup :
+
 Apache Tomcat 
 https://plumbr.io/blog/java/most-popular-java-application-servers-2017-edition
 
 when the dev team creating a application they keep to application server in mind and desing
 
-sping board will have a in bulid App server (micro services in demand)
+sping board will have a in bulid App server (micro services in demand - Docker concepts)
 
 3 Tier Appication standalone (Monolithic)
+
+
+Application server setup : 
+
+Appserver-kis
+enter into App server using xshell6
+sudo su - 
+
+
+[ec2-user@appserver-kis ~]$ sudo su - 
+Last login: Wed May 23 15:56:26 UTC 2018 on pts/0
+[root@appserver-kis ~]# yum install tomcat -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+epel/x86_64/metalink                                                                                                                                          |  20 kB  00:00:00     
+ * base: mirror.steadfast.net
+ * epel: mirror.cogentco.com
+ * extras: mirror.math.princeton.edu
+ * updates: mirror.teklinks.com
+base                                                                                                                                                          | 3.6 kB  00:00:00     
+epel                                                                                                                                                          | 4.7 kB  00:00:00     
+extras                                                                                                                                                        | 3.4 kB  00:00:00     
+google-cloud-compute/signature                                                                                                                                |  454 B  00:00:00     
+google-cloud-compute/signature                                                                                                                                | 1.8 kB  00:00:00 !!! 
+google-cloud-sdk/signature                                                                                                                                    |  454 B  00:00:00     
+google-cloud-sdk/signature                                                                                                                                    | 1.4 kB  00:00:00 !!! 
+updates                                                                                                                                                       | 3.4 kB  00:00:00     
+(1/7): epel/x86_64/updateinfo                                                                                                                                 | 930 kB  00:00:00     
+(2/7): epel/x86_64/primary_db                                                                                                                                 | 6.4 MB  00:00:00     
+(3/7): extras/7/x86_64/primary_db                                                                                                                             | 147 kB  00:00:00     
+(4/7): google-cloud-compute/updateinfo                                                                                                                        | 1.1 kB  00:00:00     
+(5/7): google-cloud-compute/primary                                                                                                                           | 3.6 kB  00:00:00     
+(6/7): google-cloud-sdk/primary                                                                                                                               |  20 kB  00:00:00     
+(7/7): updates/7/x86_64/primary_db                                                                                                                            | 2.0 MB  00:00:00     
+google-cloud-compute                                                                                                                                                           10/10
+google-cloud-sdk                                                                                                                                                             116/116
+Resolving Dependencies
+--> Running transaction check
+
+
+
+install java 
+
+complete!
+[root@appserver-kis ~]# systemctl start tomcat
+[root@appserver-kis ~]# systemctl status tomcat
+● tomcat.service - Apache Tomcat Web Application Container
+   Loaded: loaded (/usr/lib/systemd/system/tomcat.service; disabled; vendor preset: disabled)
+   Active: active (running) since Wed 2018-05-30 17:45:52 UTC; 9s ago
+ Main PID: 1360 (java)
+   CGroup: /system.slice/tomcat.service
+           └─1360 /usr/lib/jvm/jre/bin/java -classpath /usr/share/tomcat/bin/bootstrap.jar:/usr/share/tomcat/bin/tomcat-juli.jar:/usr/share/java/commons-daemon.jar -Dcatalina.bas...
+
+May 30 17:45:53 appserver-kis server[1360]: May 30, 2018 5:45:53 PM org.apache.catalina.core.StandardService startInternal
+May 30 17:45:53 appserver-kis server[1360]: INFO: Starting service Catalina
+May 30 17:45:53 appserver-kis server[1360]: May 30, 2018 5:45:53 PM org.apache.catalina.core.StandardEngine startInternal
+May 30 17:45:53 appserver-kis server[1360]: INFO: Starting Servlet Engine: Apache Tomcat/7.0.76
+May 30 17:45:53 appserver-kis server[1360]: May 30, 2018 5:45:53 PM org.apache.coyote.AbstractProtocol start
+May 30 17:45:53 appserver-kis server[1360]: INFO: Starting ProtocolHandler ["http-bio-8080"]
+May 30 17:45:53 appserver-kis server[1360]: May 30, 2018 5:45:53 PM org.apache.coyote.AbstractProtocol start
+May 30 17:45:53 appserver-kis server[1360]: INFO: Starting ProtocolHandler ["ajp-bio-8009"]
+May 30 17:45:53 appserver-kis server[1360]: May 30, 2018 5:45:53 PM org.apache.catalina.startup.Catalina start
+May 30 17:45:53 appserver-kis server[1360]: INFO: Server startup in 120 ms
+
+
+[root@appserver-kis ~]# ps -ef | grep tomcat 
+tomcat    1360     1  1 17:45 ?        00:00:01 /usr/lib/jvm/jre/bin/java -classpath /usr/share/tomcat/bin/bootstrap.jar:/usr/share/tomcat/bin/tomcat-juli.jar:/usr/share/java/commons-daemon.jar -Dcatalina.base=/usr/share/tomcat -Dcatalina.home=/usr/share/tomcat -Djava.endorsed.dirs= -Djava.io.tmpdir=/var/cache/tomcat/temp -Djava.util.logging.config.file=/usr/share/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager org.apache.catalina.startup.Bootstrap start
+root      1432  1058  0 17:47 pts/0    00:00:00 grep --color=auto tomcat
+[root@appserver-kis ~]# netstat -lntp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      912/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      804/master          
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1360/java           
+tcp6       0      0 :::8009                 :::*                    LISTEN      1360/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      1360/java           
+tcp6       0      0 :::22                   :::*                    LISTEN      912/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      804/master        
+
+
+
+
+Checking on web browser http://35.237.39.224:8080/
+
+black screen  no contents filled 
+[root@appserver-kis ~]# ^C
+[root@appserver-kis ~]# cd /var/lib/tomcat/webapps/
+[root@appserver-kis webapps]# ls
+
+nothing in there 
+mkdir ROOT 
+
+drwxr-xr-x 2 root root 6 May 30 17:52 ROOT
+[root@appserver-kis webapps]# cd ROOT
+[root@appserver-kis ROOT]# vim index.html
+ War file (web archive) and Jar (Java Archeive)files are used in App server 
+ 
+ Student.war file
+ 
+ 
+web apps# cp /tmp/rdp-api.war
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
