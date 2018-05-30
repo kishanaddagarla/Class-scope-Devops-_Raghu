@@ -1,0 +1,30 @@
+web, app db server done by 19 th 
+app server needs to start setup manully 
+
+cd apache-tomcat-8.5.31
+ps -ef |grep java
+  23 th may 
+  WPD on single node 
+  24 proxy server 
+  amazon web services indroctions 
+  three reuest to increse the items number 
+  
+  
+  25 th May
+  AWS console 
+  
+  ELB Port 80
+RDS Insatance services 
+
+   26 th May 
+   WAD on AWS 
+   
+   RDS Insatance services 
+   
+   
+   
+   
+  
+  
+  
+  
