@@ -3,6 +3,17 @@ image capture on google cloud platform
 creating instances with default created image on GCP
 
 18
-crating web server and edit the HTNL page 
+creating web server setup  and edit the HTNL page 
 add RDPORTAL
 explaintion about app server
+
+explaining rough :
+application server is java based one , exposing the app server directly is vulerable , so using web server as proxy server 
+
+data base can have login details for all users 
+
+anthetication page for big website will have single sign on servers separately 
+
+third party software website sign on authetications provided by facebook and google 
+
+application server setup 
