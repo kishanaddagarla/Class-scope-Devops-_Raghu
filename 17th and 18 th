@@ -139,6 +139,9 @@ root@appserver-kis webapps]# cp /tmp/student.war student.war
 
 http://35.231.146.220:8080/student/ it will work with forms 
 
+or 
+http://35.231.146.220:8080/student/registrationController
+
 if you fill form error
 Sorry! unable to save record
 
