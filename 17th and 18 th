@@ -130,7 +130,50 @@ drwxr-xr-x 2 root root 6 May 30 17:52 ROOT
  Student.war file
  
  
-web apps# cp /tmp/rdp-api.war
+web apps# cp /tmp/rdp-api.war(will only work with web server)
+exact student.war from tmp
+
+root@appserver-kis webapps]# cp /tmp/student.war .
+or 
+root@appserver-kis webapps]# cp /tmp/student.war student.war
+
+http://35.231.146.220:8080/student/ it will work with forms 
+
+if you fill form error
+Sorry! unable to save record
+
+check log file 
+cd /var/log/tomcat/
+
+[root@appserver-kis tomcat]# ll
+total 20
+-rw-r--r-- 1 tomcat tomcat 10901 May 30 22:06 catalina.2018-05-30.log
+-rw-rw---- 1 tomcat tomcat    28 Apr 11 03:38 catalina.out
+-rw-r--r-- 1 tomcat tomcat     0 May 30 17:45 host-manager.2018-05-30.log
+-rw-r--r-- 1 tomcat tomcat     0 May 30 17:45 localhost.2018-05-30.log
+-rw-r--r-- 1 tomcat tomcat   699 May 30 22:13 localhost_access_log.2018-05-30.txt
+-rw-r--r-- 1 tomcat tomcat     0 May 30 17:45 manager.2018-05-30.log
+
+
+[root@appserver-kis tomcat]# cat catalina.2018-05-30.log (used for log file check)
+
+[root@appserver-kis tomcat]# cat localhost_access_log.2018-05-30.txt
+86.23.64.153 - - [30/May/2018:17:49:29 +0000] "GET / HTTP/1.1" 404 -
+86.23.64.153 - - [30/May/2018:17:56:44 +0000] "GET / HTTP/1.1" 200 12
+86.23.64.153 - - [30/May/2018:17:56:45 +0000] "GET /favicon.ico HTTP/1.1" 404 973
+86.23.64.153 - - [30/May/2018:21:01:49 +0000] "GET / HTTP/1.1" 200 12
+86.23.64.153 - - [30/May/2018:21:01:49 +0000] "GET /favicon.ico HTTP/1.1" 404 973
+86.23.64.153 - - [30/May/2018:21:35:20 +0000] "GET / HTTP/1.1" 304 -
+86.23.64.153 - - [30/May/2018:22:09:01 +0000] "GET /student HTTP/1.1" 302 -
+86.23.64.153 - - [30/May/2018:22:09:03 +0000] "GET /student/ HTTP/1.1" 200 1191
+86.23.64.153 - - [30/May/2018:22:13:13 +0000] "POST /student/registrationController HTTP/1.1" 200 29
+190.110.248.244 - - [30/May/2018:22:16:17 +0000] "GET / HTTP/1.1" 200 12
+
+
+instead of tomcat 7 we need to insatll tomcat 8 for log file access use the follow instruction below-->
+   2) Binary Installation  <- Will be discussed in project
+   
+   
 
 
 
