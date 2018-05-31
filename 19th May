@@ -131,15 +131,89 @@ tcp6       0      0 ::1:25                  :::*                    LISTEN      
 
 
 
-[root@appserver-kis ~]# netstat -lntp | grep tomcat 
+[root@appserver-kis ~]# ps -ef | grep tomcat 
+
+ps -ef | grep tomcat 
+ec2-user  1533     1  0 15:04 pts/0    00:00:06 /usr/bin/java -Djava.util.logging.config.file=/home/ec2-user/apache-tomcat-8.5.31/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/ec2-user/apache-tomcat-8.5.31/bin/bootstrap.jar:/home/ec2-user/apache-tomcat-8.5.31/bin/tomcat-juli.jar -Dcatalina.base=/home/ec2-user/apache-tomcat-8.5.31 -Dcatalina.home=/home/ec2-user/apache-tomcat-8.5.31 -Djava.io.tmpdir=/home/ec2-user/apache-tomcat-8.5.31/temp org.apache.catalina.startup.Bootstrap start
+root      1800  1612  0 15:28 pts/0    00:00:00 grep --color=auto tomcat
+
+
+[root@appserver-kis ~]# cd /etc/systemd/
+[root@appserver-kis systemd]# ls
+bootchart.conf  coredump.conf  journald.conf  logind.conf  system  system.conf  user  user.conf
+[root@appserver-kis systemd]# cd system
+[root@appserver-kis system]# ls
+basic.target.wants                           default.target                                           getty.target.wants       network-online.target.wants  system-update.target.wants
+dbus-org.freedesktop.NetworkManager.service  default.target.wants                                     local-fs.target.wants    sshd.service.wants
+dbus-org.freedesktop.nm-dispatcher.service   dev-virtio\x2dports-org.qemu.guest_agent.0.device.wants  multi-user.target.wants  sysinit.target.wants
+[root@appserver-kis system]# cd multi-user.target.wants
+[root@appserver-kis multi-user.target.wants]# ls
+acpid.service    crond.service                   google-clock-skew-daemon.service  google-shutdown-scripts.service  ntpd.service      rhel-configure.service  tuned.service
+auditd.service   expand-root.service             google-instance-setup.service     google-startup-scripts.service   postfix.service   rsyslog.service         yum-cron.service
+chronyd.service  google-accounts-daemon.service  google-network-daemon.service     NetworkManager.service           remote-fs.target  sshd.service
+[root@appserver-kis multi-user.target.wants]# cat sshd.service
+
+[Unit]
+Description=OpenSSH server daemon
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target sshd-keygen.service
+Wants=sshd-keygen.service
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/sshd
+ExecStart=/usr/sbin/sshd -D $OPTIONS  ---- user start 
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process  --- user asks for stop 
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
+
+
+cat ndpd.service
+[Unit]
+Description=Network Time Service
+After=syslog.target ntpdate.service sntp.service
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/sysconfig/ntpd
+ExecStart=/usr/sbin/ntpd -u ntp:ntp $OPTIONS
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
 
 
 
 
 
+[root@appserver-kis multi-user.target.wants]# cat postfix.service
+[Unit]
+Description=Postfix Mail Transport Agent
+After=syslog.target network.target
+Conflicts=sendmail.service exim.service
+
+[Service]
+Type=forking
+PIDFile=/var/spool/postfix/pid/master.pid
+EnvironmentFile=-/etc/sysconfig/network
+ExecStartPre=-/usr/libexec/postfix/aliasesdb
+ExecStartPre=-/usr/libexec/postfix/chroot-update
+ExecStart=/usr/sbin/postfix start
+ExecReload=/usr/sbin/postfix reload
+ExecStop=/usr/sbin/postfix stop
+
+[Install]
+WantedBy=multi-user.target
 
 
+ to shutdown port will closed and it will shutdown app server , Java is paltform independent for hardware, java runtime will run the process
 
 
+ 
+ 
 
 
