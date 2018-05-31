@@ -1,0 +1,145 @@
+APPLICATION SERVER SETUP WITH TOMCAT 8.0
+instead of tomcat 7.5 we need to install 8.0 
+[ec2-user@appserver-kis ~]$ yum remove tomcat
+
+[ec2-user@appserver-kis ~]$ sudo yum remove tomcat
+Loaded plugins: fastestmirror
+Resolving Dependencies
+--> Running transaction check
+---> Package tomcat.noarch 0:7.0.76-6.el7 will be erased
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=====================================================================================================================================================================================
+ Package                                   Arch                                      Version                                          Repository                                Size
+=====================================================================================================================================================================================
+Removing:
+ tomcat                                    noarch                                    7.0.76-6.el7                                     @base                                    303 k
+
+Transaction Summary
+=====================================================================================================================================================================================
+Remove  1 Package
+
+Installed size: 303 k
+Is this ok [y/N]: y
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Erasing    : tomcat-7.0.76-6.el7.noarch                                                                                                                                        1/1 
+  Verifying  : tomcat-7.0.76-6.el7.noarch                                                                                                                                        1/1 
+
+Removed:
+  tomcat.noarch 0:7.0.76-6.el7                                                                                                                                                       
+
+Complete!
+[ec2-user@appserver-kis ~]$ 
+
+Download tomcat 8 
+
+
+wget http://mirror.vorboss.net/apache/tomcat/tomcat-8/v8.5.31/bin/apache-tomcat-8.5.31.tar.gz
+
+[ec2-user@appserver-kis ~]$ tar -xf apache-tomcat-8.5.31.tar.gz
+[ec2-user@appserver-kis ~]$ ls
+apache-tomcat-8.5.31  apache-tomcat-8.5.31.tar.gz
+[ec2-user@appserver-kis ~]$ cd apache-tomcat-8.5.31
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$ ls
+bin  conf  lib  LICENSE  logs  NOTICE  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+
+
+BIN 
+
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$  cd bin 
+[ec2-user@appserver-kis bin]$ ls
+bootstrap.jar  catalina-tasks.xml            configtest.bat  digest.bat        setclasspath.sh  startup.bat      tomcat-native.tar.gz  version.bat
+catalina.bat   commons-daemon.jar            configtest.sh   digest.sh         shutdown.bat     startup.sh       tool-wrapper.bat      version.sh
+catalina.sh    commons-daemon-native.tar.gz  daemon.sh       setclasspath.bat  shutdown.sh      tomcat-juli.jar  tool-wrapper.sh
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$ ls conf/
+catalina.policy  catalina.properties  context.xml  jaspic-providers.xml  jaspic-providers.xsd  logging.properties  server.xml  tomcat-users.xml  tomcat-users.xsd  web.xml
+
+
+lib - all libraries to run tomcat will be here 
+
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$ ls lib 
+annotations-api.jar  catalina.jar              ecj-4.6.3.jar  jasper.jar      servlet-api.jar    tomcat-dbcp.jar     tomcat-i18n-ja.jar  tomcat-util.jar       websocket-api.jar
+catalina-ant.jar     catalina-storeconfig.jar  el-api.jar     jaspic-api.jar  tomcat-api.jar     tomcat-i18n-es.jar  tomcat-jdbc.jar     tomcat-util-scan.jar
+catalina-ha.jar      catalina-tribes.jar       jasper-el.jar  jsp-api.jar     tomcat-coyote.jar  tomcat-i18n-fr.jar  tomcat-jni.jar      tomcat-websocket.jar
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$ 
+
+
+log files
+web apps 
+
+[ec2-user@appserver-kis apache-tomcat-8.5.31]$ ls webapps/
+docs  examples  host-manager  manager  ROOT
+
+cd bin/
+[ec2-user@appserver-kis bin]$ ls
+bootstrap.jar  catalina-tasks.xml            configtest.bat  digest.bat        setclasspath.sh  startup.bat      tomcat-native.tar.gz  version.bat
+catalina.bat   commons-daemon.jar            configtest.sh   digest.sh         shutdown.bat     startup.sh       tool-wrapper.bat      version.sh
+catalina.sh    commons-daemon-native.tar.gz  daemon.sh       setclasspath.bat  shutdown.sh      tomcat-juli.jar  tool-wrapper.sh
+[ec2-user@appserver-kis bin]$ vim startup.sh or sh srartup,sh or ./ starup.sh
+
+
+To srat the tomcat server 
+
+[ec2-user@appserver-kis bin]$ ./startup.sh 
+Using CATALINA_BASE:   /home/ec2-user/apache-tomcat-8.5.31
+Using CATALINA_HOME:   /home/ec2-user/apache-tomcat-8.5.31
+Using CATALINA_TMPDIR: /home/ec2-user/apache-tomcat-8.5.31/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ec2-user/apache-tomcat-8.5.31/bin/bootstrap.jar:/home/ec2-user/apache-tomcat-8.5.31/bin/tomcat-juli.jar
+Tomcat started.
+
+staus scheck : systemctl status tomcat cant be use to cehck the status bcoz we installed the binary version of the tomcat. 
+
+so we need to use : ps -ef | grep tomcat 
+[ec2-user@appserver-kis bin]$ ps -ef | grep tomcat 
+ec2-user  1533     1  1 15:04 pts/0    00:00:02 /usr/bin/java -Djava.util.logging.config.file=/home/ec2-user/apache-tomcat-8.5.31/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/ec2-user/apache-tomcat-8.5.31/bin/bootstrap.jar:/home/ec2-user/apache-tomcat-8.5.31/bin/tomcat-juli.jar -Dcatalina.base=/home/ec2-user/apache-tomcat-8.5.31 -Dcatalina.home=/home/ec2-user/apache-tomcat-8.5.31 -Djava.io.tmpdir=/home/ec2-user/apache-tomcat-8.5.31/temp org.apache.catalina.startup.Bootstrap start
+ec2-user  1602  1044  0 15:07 pts/0    00:00:00 grep --color=auto tomcat
+
+[ec2-user@appserver-kis bin]$ sudo su - 
+Last login: Wed May 30 21:40:02 UTC 2018 on pts/1
+[root@appserver-kis ~]# netstat -lntp | grep 1533
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8009                 :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      1533/java           
+[root@appserver-kis ~]# 
+
+tomcat will running on three ports 
+1. 8080 end users 
+2.8009 -- back end port (any appication is connectied to this server this port is used)
+3 8005 shutdown port (when ever we want shut down the services , we can use this port not using kill cmd here.)
+
+Java is paltform independent for hardware, java runtime will run the process
+
+
+[root@appserver-kis ~]# netstat -lntp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      824/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      791/master          
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8009                 :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      1533/java           
+tcp6       0      0 :::22                   :::*                    LISTEN      824/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      791/master    
+
+
+
+
+[root@appserver-kis ~]# netstat -lntp | grep tomcat 
+
+
+
+
+
+
+
+
+
+
+
