@@ -96,7 +96,8 @@ Tomcat started.
 
 staus scheck : systemctl status tomcat cant be use to cehck the status bcoz we installed the binary version of the tomcat. 
 
-so we need to use : ps -ef | grep tomcat 
+so we need to use : ps -ef | grep tomcat -- check the status 
+
 [ec2-user@appserver-kis bin]$ ps -ef | grep tomcat 
 ec2-user  1533     1  1 15:04 pts/0    00:00:02 /usr/bin/java -Djava.util.logging.config.file=/home/ec2-user/apache-tomcat-8.5.31/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/ec2-user/apache-tomcat-8.5.31/bin/bootstrap.jar:/home/ec2-user/apache-tomcat-8.5.31/bin/tomcat-juli.jar -Dcatalina.base=/home/ec2-user/apache-tomcat-8.5.31 -Dcatalina.home=/home/ec2-user/apache-tomcat-8.5.31 -Djava.io.tmpdir=/home/ec2-user/apache-tomcat-8.5.31/temp org.apache.catalina.startup.Bootstrap start
 ec2-user  1602  1044  0 15:07 pts/0    00:00:00 grep --color=auto tomcat
@@ -210,10 +211,25 @@ ExecStop=/usr/sbin/postfix stop
 WantedBy=multi-user.target
 
 
- to shutdown port will closed and it will shutdown app server , Java is paltform independent for hardware, java runtime will run the process
+ to shutdown port will closed and it will shutdown app server , Java is paltform independent of hardware
+ , java runtime will run the process (addtional - separtare appliacation)--
 
 
  
+ [root@appserver-kis multi-user.target.wants]# netstat -lntp 
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      824/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      791/master          
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8009                 :::*                    LISTEN      1533/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      1533/java   --    run by java , not tomcat here
+tcp6       0      0 :::22                   :::*                    LISTEN      824/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      791/master    444     
+
+
+
  
+
 
 
