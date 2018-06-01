@@ -1,0 +1,22 @@
+shell scripting with stack.sh 
+ maria DB install
+ 
+ 
+ 
+ 
+ -----
+ -----
+ 
+ 
+ case CMD can do string comparition 12-case.sh
+ 
+case $variable -- case syntax 
+value1) commands ;;
+val1)commands ::
+esac 
+
+
+  
+
+
+
