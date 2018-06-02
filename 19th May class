@@ -1,6 +1,175 @@
+step by step Application server
+
+[root@appserver-kis tomcat]# yum list all | grep tomcat
+tomcat.noarch                             7.0.76-6.el7                 @base    
+tomcat-el-2.2-api.noarch                  7.0.76-6.el7                 @base    
+tomcat-jsp-2.2-api.noarch                 7.0.76-6.el7                 @base    
+tomcat-lib.noarch                         7.0.76-6.el7                 @base    
+tomcat-servlet-3.0-api.noarch             7.0.76-6.el7                 @base    
+jglobus-ssl-proxies-tomcat.noarch         2.1.0-6.el7                  epel     
+tomcat-admin-webapps.noarch               7.0.76-6.el7                 base     
+tomcat-docs-webapp.noarch                 7.0.76-6.el7                 base     
+tomcat-javadoc.noarch                     7.0.76-6.el7                 base     
+tomcat-jsvc.noarch                        7.0.76-6.el7                 base     
+tomcat-native.x86_64                      1.2.16-1.el7                 epel     
+tomcat-webapps.noarch                     7.0.76-6.el7                 base     
+tomcatjss.noarch                          7.2.1-6.el7                  base     
+[root@appserver-kis tomcat]# 
+
+
 APPLICATION SERVER SETUP WITH TOMCAT 8.0
 instead of tomcat 7.5 we need to install 8.0 
 [ec2-user@appserver-kis ~]$ yum remove tomcat
+
+http://mirrors.ukfast.co.uk/sites/ftp.apache.org/tomcat/tomcat-8/v8.5.31/bin/apache-tomcat-8.5.31.tar.gz
+[root@appserver-kis ~]# wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/tomcat/tomcat-8/v8.5.31/bin/apache-tomcat-8.5.31.tar.gz
+to exact tar file 
+
+tar apache-tomcat-8.5.31.tar.gz
+[root@appserver-kis ~]# tar -xf  apache-tomcat-8.5.31.tar.gz
+
+cd apache-tomcat-8.5.31
+[root@appserver-kis apache-tomcat-8.5.31]# ls
+bin  conf  lib  LICENSE  logs  NOTICE  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+[root@appserver-kis apache-tomcat-8.5.31]# cd bin 
+[root@appserver-kis bin]# ls
+bootstrap.jar  catalina-tasks.xml            configtest.bat  digest.bat        setclasspath.sh  startup.bat      tomcat-native.tar.gz  version.bat
+catalina.bat   commons-daemon.jar            configtest.sh   digest.sh         shutdown.bat     startup.sh       tool-wrapper.bat      version.sh
+catalina.sh    commons-daemon-native.tar.gz  daemon.sh       setclasspath.bat  shutdown.sh      tomcat-juli.jar  tool-wrapper.sh
+[root@appserver-kis bin]# ./startup.sh
+Using CATALINA_BASE:   /root/apache-tomcat-8.5.31
+Using CATALINA_HOME:   /root/apache-tomcat-8.5.31
+Using CATALINA_TMPDIR: /root/apache-tomcat-8.5.31/temp
+Using JRE_HOME:        /
+Using CLASSPATH:       /root/apache-tomcat-8.5.31/bin/bootstrap.jar:/root/apache-tomcat-8.5.31/bin/tomcat-juli.jar
+Tomcat started.
+[root@appserver-kis bin]# 
+
+
+after starting tomcat 8 , syctemctl does not work here
+
+[root@appserver-kis bin]# ps -ef | grep tomcat
+root      2908     1  0 18:57 pts/0    00:00:03 //bin/java -Djava.util.logging.config.file=/root/apache-tomcat-8.5.31/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /root/apache-tomcat-8.5.31/bin/bootstrap.jar:/root/apache-tomcat-8.5.31/bin/tomcat-juli.jar -Dcatalina.base=/root/apache-tomcat-8.5.31 -Dcatalina.home=/root/apache-tomcat-8.5.31 -Djava.io.tmpdir=/root/apache-tomcat-8.5.31/temp org.apache.catalina.startup.Bootstrap start
+root      3050  2714  0 19:06 pts/0    00:00:00 grep --color=auto tomcat
+
+
+[root@appserver-kis bin]# netstat -lntp 2908  ---process ID 
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      876/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      804/master          
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      2908/java           
+tcp6       0      0 :::8009                 :::*                    LISTEN      2908/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      2908/java           
+tcp6       0      0 :::22                   :::*                    LISTEN      876/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      804/master  
+
+
+^C
+[root@appserver-kis bin]# cd /etc/systemd/
+[root@appserver-kis systemd]# ls
+bootchart.conf  coredump.conf  journald.conf  logind.conf  system  system.conf  user  user.conf
+[root@appserver-kis systemd]#  cd system
+[root@appserver-kis system]# cd  multi-user.target.wants
+[root@appserver-kis multi-user.target.wants]# ls
+acpid.service    crond.service                   google-clock-skew-daemon.service  google-shutdown-scripts.service  ntpd.service      rhel-configure.service  tuned.service
+auditd.service   expand-root.service             google-instance-setup.service     google-startup-scripts.service   postfix.service   rsyslog.service         yum-cron.service
+chronyd.service  google-accounts-daemon.service  google-network-daemon.service     NetworkManager.service           remote-fs.target  sshd.service
+[root@appserver-kis multi-user.target.wants]# cat sshd.service
+[root@appserver-kis multi-user.target.wants]# cat ntpd.service , cat postfix.service
+
+
+http://35.231.146.220:8080/
+
+
+Apache Tomcat/8.5.31
+ If you're seeing this, you've successfully installed Tomcat. Congratulations!
+
+
+[root@appserver-kis ~]# cd ~
+[root@appserver-kis ~]# ls
+apache-tomcat-8.5.31  apache-tomcat-8.5.31.tar.gz
+[root@appserver-kis ~]# cd apache-tomcat-8.5.31
+[root@appserver-kis apache-tomcat-8.5.31]# ls
+bin  conf  lib  LICENSE  logs  NOTICE  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+[root@appserver-kis apache-tomcat-8.5.31]# ls
+bin  conf  lib  LICENSE  logs  NOTICE  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+[root@appserver-kis apache-tomcat-8.5.31]# cd webapps
+[root@appserver-kis webapps]# ls
+docs  examples  host-manager  manager  ROOT
+[root@appserver-kis apache-tomcat-8.5.31]# cd webapps
+[root@appserver-kis webapps]# ls
+docs  examples  host-manager  manager  ROOT
+[root@appserver-kis webapps]# cp /tmp/student.war .
+[root@appserver-kis webapps]# ls
+docs  examples  host-manager  manager  ROOT  student.war
+[root@appserver-kis webapps]# cp student.war student 
+[root@appserver-kis webapps]# ls
+docs  examples  host-manager  manager  ROOT  student  student.war
+[root@appserver-kis webapps]# cd student 
+[root@appserver-kis student]# ls
+home.jsp  index.jsp  META-INF  NewFile.jsp  student.war  WEB-INF
+[root@appserver-kis student]# 
+
+
+
+http://35.231.146.220:8080/student website check ------Sorry! unable to save record
+
+
+[root@appserver-kis student]# cd ~
+ cd apache-tomcat-8.5.31 
+ cd logs
+[root@appserver-kis logs]# ls
+catalina.2018-06-02.log  catalina.out  host-manager.2018-06-02.log  localhost.2018-06-02.log  localhost_access_log.2018-06-02.txt  manager.2018-06-02.log
+[root@appserver-kis logs]# cat catalina.out
+[root@appserver-kis logs]# tile catalina.out
+
+02-Jun-2018 18:57:29.697 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+02-Jun-2018 18:57:29.703 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1256 ms
+02-Jun-2018 19:58:29.923 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/root/apache-tomcat-8.5.31/webapps/student.war]
+02-Jun-2018 19:58:30.009 INFO [localhost-startStop-2] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+02-Jun-2018 19:58:30.030 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/root/apache-tomcat-8.5.31/webapps/student.war] has finished in [90] ms
+javax.naming.NameNotFoundException: Name [jdbc/TestDB] is not bound in this Context. Unable to find [jdbc].
+
+
+[root@appserver-kis logs]# tail catalina.out
+
+
+JDBC --- (JAVA database connection)no Database info 
+jdbc connectors 
+
+create jdbc connectors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------
 
 [ec2-user@appserver-kis ~]$ sudo yum remove tomcat
 Loaded plugins: fastestmirror
