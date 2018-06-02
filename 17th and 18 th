@@ -4,10 +4,145 @@ image capture on google cloud platform
 creating instances with default created image on GCP setup WEBSERVER login using xshell.
 
 18
+
+
+
+[root@web-server-kis ~]# httpd -M 
+Loaded Modules:
+ core_module (static)
+ so_module (static)
+ http_module (static)
+ access_compat_module (shared)
+ actions_module (shared)
+ alias_module (shared)
+ allowmethods_module (shared)
+ auth_basic_module (shared)
+ auth_digest_module (shared)
+ authn_anon_module (shared)
+ authn_core_module (shared)
+ authn_dbd_module (shared)
+ authn_dbm_module (shared)
+ authn_file_module (shared)
+ authn_socache_module (shared)
+ authz_core_module (shared)
+ authz_dbd_module (shared)
+ authz_dbm_module (shared)
+ authz_groupfile_module (shared)
+ authz_host_module (shared)
+ authz_owner_module (shared)
+ authz_user_module (shared)
+ autoindex_module (shared)
+ cache_module (shared)
+ cache_disk_module (shared)
+ data_module (shared)
+ dbd_module (shared)
+ deflate_module (shared)
+ dir_module (shared)
+ dumpio_module (shared)
+ echo_module (shared)
+ env_module (shared)
+ expires_module (shared)
+ ext_filter_module (shared)
+ filter_module (shared)
+ headers_module (shared)
+ include_module (shared)
+ info_module (shared)
+ log_config_module (shared)
+ logio_module (shared)
+ mime_magic_module (shared)
+ mime_module (shared)
+ negotiation_module (shared)
+ remoteip_module (shared)
+ reqtimeout_module (shared)
+ rewrite_module (shared)
+ setenvif_module (shared)
+ slotmem_plain_module (shared)
+ slotmem_shm_module (shared)
+ socache_dbm_module (shared)
+ socache_memcache_module (shared)
+ socache_shmcb_module (shared)
+ status_module (shared)
+ substitute_module (shared)
+ suexec_module (shared)
+ unique_id_module (shared)
+ unixd_module (shared)
+ userdir_module (shared)
+ version_module (shared)
+ vhost_alias_module (shared)
+ dav_module (shared)
+ dav_fs_module (shared)
+ dav_lock_module (shared)
+ lua_module (shared)
+ mpm_prefork_module (shared)
+ proxy_module (shared)
+ lbmethod_bybusyness_module (shared)
+ lbmethod_byrequests_module (shared)
+ lbmethod_bytraffic_module (shared)
+ lbmethod_heartbeat_module (shared)
+ proxy_ajp_module (shared)
+ proxy_balancer_module (shared)
+ proxy_connect_module (shared)
+ proxy_express_module (shared)
+ proxy_fcgi_module (shared)
+ proxy_fdpass_module (shared)
+ proxy_ftp_module (shared)
+ proxy_http_module (shared)
+ proxy_scgi_module (shared)
+ proxy_wstunnel_module (shared)
+ systemd_module (shared)
+ cgi_module (shared)
+ php5_module (shared)  ----- Checking PHP 
+
+cd /var/www/html/
+index.html
+
+
+
+
+ldap acount manager --google for ldap 
+
+ldap account manager 5.7
+
+right click Copy 5.7 Tar.bz2
+
+wget paste URL
+
+to exract the file 
+html]# tar -xf ldap-account-manager-5.7.tar.bz2
+html]# mv ldap-account-manager-5.7 lam
+cd lam
+ls
+
+chown apache:apache lam-R 
+
+[root@web-server-kis ~]# 
+[root@web-server-kis ~]# cd /var/www/html/
+[root@web-server-kis html]# ls -l
+total 15192
+-rw-r--r--  1 root   root         38 May 30 12:56 index.html
+drwxr-x--x 12 apache apache      323 Mar 14  2017 lam
+-rw-r--r--  1 root   root   15549854 Mar 15  2017 ldap-account-manager-5.7.tar.bz2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 creating web server setup  and edit the HTML page 
 add RDPORTAL
 
 on the back groung angular JS is used on RDPORTAL
+
+
+Ipaddress/ RDPORTAL
 
 explaintion about app server
 
@@ -38,6 +173,63 @@ Appserver-kis
 enter into App server using xshell6
 sudo su - 
 
+
+Details in steps forApp Server :-----------------------------
+[root@appserver-kis ~]# yum install tomcat -y
+[root@appserver-kis ~]#  systemctl start tomcat
+[root@appserver-kis ~]#  systemctl status tomcat
+[root@appserver-kis ~]# ps -ef | grep tomcat 
+[root@appserver-kis ~]#  netstat -lntp
+[root@appserver-kis ~]#  cd /var/lib/tomcat/webapps/
+[root@appserver-kis webapps]# mkdir ROOT 
+[root@appserver-kis webapps]# cd ROOT
+
+[root@appserver-kis ROOT]# vim index.html
+[root@appserver-kis ROOT]# cat index.html
+Hello World , Kishan's App server 
+ war / jar file ------  Student.war file
+ using xftp copy student.war
+ [root@appserver-kis ROOT]# cp /tmp/student.war .
+ 
+ [root@appserver-kis webapps]# mv /var/lib/tomcat/webapps/ROOT/student.war .
+[root@appserver-kis webapps]# ls
+ROOT  student.war
+[root@appserver-kis webapps]# cp student.war student
+[root@appserver-kis webapps]# ls
+ROOT  student  student.war
+
+
+ [root@appserver-kis webapps]# cd student
+[root@appserver-kis student]# ls
+home.jsp  index.jsp  META-INF  NewFile.jsp  student.war  WEB-INF
+[root@appserver-kis student]# 
+
+ Check on website:
+ http://35.231.146.220:8080/student/
+ 
+ if you fill form error
+Sorry! unable to save record
+
+check log file 
+cd /var/log/tomcat/
+ 
+ [root@appserver-kis student]# cd /var/log/tomcat/
+[root@appserver-kis tomcat]# ls -ltr
+total 16
+-rw-rw---- 1 tomcat tomcat   28 Apr 11 03:38 catalina.out
+-rw-r--r-- 1 tomcat tomcat    0 Jun  2 17:46 localhost.2018-06-02.log
+-rw-r--r-- 1 tomcat tomcat    0 Jun  2 17:46 manager.2018-06-02.log
+-rw-r--r-- 1 tomcat tomcat    0 Jun  2 17:46 host-manager.2018-06-02.log
+-rw-r--r-- 1 tomcat tomcat 5140 Jun  2 18:13 catalina.2018-06-02.log
+-rw-r--r-- 1 tomcat tomcat  657 Jun  2 18:20 localhost_access_log.2018-06-02.txt
+
+
+-rw-r--r-- 1 tomcat tomcat 5140 Jun  2 18:13 catalina.2018-06-02.log----- Logs files 
+cat localhost_access_log.2018-05-18.txt
+
+
+
+---------------------------------------------------------------------------------
 
 [ec2-user@appserver-kis ~]$ sudo su - 
 Last login: Wed May 23 15:56:26 UTC 2018 on pts/0
