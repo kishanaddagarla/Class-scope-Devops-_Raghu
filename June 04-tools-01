@@ -1,0 +1,16 @@
+confirugation management tool - Ansible
+push/ pull
+puppet- pull
+shef -pull
+salt stack - both pull/push (hybrid)
+ansible -push 
+ansible is agentless on the remote node (will save some Ram resources)
+it works over ssh
+written Yaml and python 
+
+
+
+
+
+
+
