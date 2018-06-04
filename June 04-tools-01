@@ -6,7 +6,46 @@ salt stack - both pull/push (hybrid)
 ansible -push 
 ansible is agentless on the remote node (will save some Ram resources)
 it works over ssh
-written Yaml and python 
+written Yaml and python / rich in modules / supported by Redhat now
+
+
+Yaml (yet anthor markup language ) is like Html , xml , jason and then yaml 
+yaml is plain text markup languages , will have indentdation like paras 
+
+ansible doumentation _ http://docs.ansible.com/ansible/latest/index.html
+http://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+
+For Ansible, nearly every YAML file starts with a list. Each item in the list is a list of key/value pairs, 
+commonly called a “hash” or a “dictionary”. So, we need to know how to write lists and dictionaries in YAML.
+
+
+There’s another small quirk to YAML. All YAML files (regardless of their association with Ansible or not) 
+can optionally begin with --- and end with .... This is part of the YAML format and indicates the start and end of a document.
+
+All members of a list are lines beginning at the same indentation level starting with a "- " (a dash and a space):
+
+
+---
+# A list of tasty fruits
+fruits:
+    - Apple
+    - Orange
+    - Strawberry
+    - Mango
+...
+
+dictanory
+
+
+yum install ansible -y
+
+
+
+
+
+
+
+
 
 
 
