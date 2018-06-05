@@ -1,0 +1,24 @@
+ec2-user@node-1ani
+
+ssh -i sample.pem -l ec2-user
+
+
+ec2-user@workstation-ani ~]$ ssh -i sample1.pem -l ec2-user node-1ani
+The authenticity of host 'node-1ani (10.142.0.9)' can't be established.
+ECDSA key fingerprint is SHA256:efzaeLhAPtt9QZxZJ1f0hvs7rpBbzHU1O7wu2j7jynA.
+ECDSA key fingerprint is MD5:cc:85:a0:1a:01:67:a7:67:01:35:18:e2:60:9a:df:27.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'node-1ani,10.142.0.9' (ECDSA) to the list of known hosts.
+Last login: Tue Jun  5 02:40:23 2018 from host-92-17-8-97.as13285.net
+[ec2-user@node-1ani ~]$ 
+
+[ec2-user@workstation-ani ~]$ ansible -i hosts all --private-key=sample1.pem -m ping 
+node-1ani | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+[ec2-user@workstation-ani ~]$ 
+
+
+
+
