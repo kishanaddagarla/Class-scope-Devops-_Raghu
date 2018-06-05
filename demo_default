@@ -1,0 +1,60 @@
+basic bash
+
+$ echo $PATH
+
+export PATH=$PATH:scripts
+
+
+From <https://www.cyberciti.biz/faq/howto-print-path-variable/> 
+
+m <https://linuxacademy.com/cp/exercises/view/id/266/module/68> 
+
+
+
+
+sudo su-
+
+echo $path
+export PATH=$PATH:/home/user/padma
+
+export PATH=$PATH:/home/user/scripts
+export PATH=$PATH:/home/user/bin
+root@demo-cent ~]# echo $PATH
+/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/home/user/padma
+
+[ec2-user@demo-cent padma]$ bash amma.sh
+amma i love so much
+Hello World
+
+Git bash setup 
+ssh-keygen -f devops
+creates 
+devops.pub
+devops
+mv devops devops.pem
+
+
+ssh - i devops.pem -l ec2-user 35.196.23.887
+or 
+ssh - i devops.pem ec2-user@35.196.23.887
+
+xshell
+
+open
+tools> userkeymanager>import devops.pem
+
+go to setting propertites 
+authentication pubild key -ec2-user , at user key-select devops
+
+
+
+
+
+
+
+
+
+
+
+
+
