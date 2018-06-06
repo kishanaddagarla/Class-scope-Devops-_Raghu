@@ -1,0 +1,25 @@
+retry file is diable 
+
+
+to excute a file in ansible 
+ansible-playbook playbook/04-vars_files.yml
+
+file (05-var)
+05-vars_prompt.yml
+
+06-facts.yml
+
+
+ansible nodes -m setup | grep node1
+
+vim ansible.cfg
+ansible-playbook playbook/06-facts.yml
+ 07-register-vars.yml
+ -- who |wc -l
+ run ansible with file 7
+ 
+ 
+ dictionary in python
+ 
+ stack.yml
+ 
