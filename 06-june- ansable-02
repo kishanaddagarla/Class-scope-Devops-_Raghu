@@ -1,5 +1,18 @@
 retry file is diable 
 
+on playboob folder 
+vim 03-vars.retry
+retry_files_enabled= false
+Wq!
+
+04-vars_files.yml
+
+
+
+vars_promt.yml
+
+
+
 
 to excute a file in ansible 
 ansible-playbook playbook/04-vars_files.yml
@@ -7,14 +20,50 @@ ansible-playbook playbook/04-vars_files.yml
 file (05-var)
 05-vars_prompt.yml
 
-06-facts.yml
+enter a url for site 
+private should set to no 
 
+
+    private: no
+gatering the facts --
+
+ansible nodes -m setup
+this will collect all the system config of the remote node as Varibles 
+for IP address : "facter_ipaddress"="10.142.0.3" and hostname varible can be checked 
+
+access facts is next file ----06-facts.yml  task print full hostname 
+
+to run the yml file ----- ansible-playbook playbook/06.facts.yml
+
+
+for full hostname hostname -f
 
 ansible nodes -m setup | grep node1
+for fullhost name choose one if the below :
+ansible_fqdn
+facter_fqdn
+
+
+ansible-playbook playbook/06-facts.yml
+
+to make changes on the gartherinf facts go to ansible.cfg 
 
 vim ansible.cfg
-ansible-playbook playbook/06-facts.yml
- 07-register-vars.yml
+
+choose --explict 
+
+
+ ansible will collect the date into varible , that is called garthering 
+ 
+ in chef --ohayhia 
+ansible uses --gaterfacts 
+puttet uses father --- collecting ti data for for stage in the remote nodes 
+
+play time 24 mins
+
+
+
+07-register-vars.yml
  -- who |wc -l
  run ansible with file 7
  
