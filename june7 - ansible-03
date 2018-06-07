@@ -1,0 +1,15 @@
+in the stack..yml
+
+install python
+
+loops.yml 
+create a file foe nodes
+create afile with content
+blockinfile --multiple files
+lineinfile -- single file
+
+add schnme 
+add user
+
+ tags - tasks.yml
+  
