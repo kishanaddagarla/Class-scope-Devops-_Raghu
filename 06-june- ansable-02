@@ -59,16 +59,32 @@ choose --explict
 ansible uses --gaterfacts 
 puttet uses father --- collecting ti data for for stage in the remote nodes 
 
-play time 24 mins
 
 
+to define varables while run the tasks -----setfacts
 
 07-register-vars.yml
- -- who |wc -l
- run ansible with file 7
+ -- who |wc -l -- to check how users logged into the system
+ register : out is a variable
+ debug -- for print dispaly
  
- 
+run ansible with file 7
+
  dictionary in python
  
  stack.yml
  
+ 08-set_facts.yml
+ 
+ Video play time 37mins 
+ 
+
+
+
+
+
+
+
+
+
+
